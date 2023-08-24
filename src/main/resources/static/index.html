@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeCraft Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <!-- Intestazione sidebar -->
+    <header>
+      <div class="image-text">
+
+        <span class="image">
+          <img src="css/logo.png" alt="logo">
+        </span>
+
+        <div class="text header-text">
+          <span class="name">WeCraft Map</span>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Contenuto sidebar -->
+    <div class="menu-bar">
+      <div class="menu">
+        <h2>Prodotti:</h2>
+        <ul class="menu-options">
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type1" class="product-type" type="checkbox" aria-hidden="true" />
+              <label for="type1">Opzione 1</label>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type2" class="product-type" type="checkbox" aria-hidden="true" />
+              <label for="type2">Opzione 2</label>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type3" class="product-type" type="checkbox" aria-hidden="true" />
+              <label for="type3">Opzione 3</label>
+            </div>
+          </li>
+        </ul>
+
+
+        <div class="price-wrapper">
+          <header>
+            <h2>Prezzo:</h2>
+          </header>
+
+          <div class="price-input">
+            <div class="price-field">
+              <span>Min</span>
+              <input type="number" class="price-input-min" value="1">
+            </div>
+            <div class="separator">-</div>
+            <div class="price-field">
+              <span>Max</span>
+              <input type="number" class="price-input-max" value="10000">
+            </div>
+          </div>
+
+          <div class="price-slider">
+            <div class="progress"></div>
+          </div>
+          <div class="range-input">
+            <input type="range" class="range-min" min="1" max="10000" value="1">
+            <input type="range" class="range-max" min="1" max="10000" value="10000">
+          </div>
+
+        </div>
+
+
+        <button class="button">Trova</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Mappa -->
+  <section class="home">
+    
+    <div id="map"></div>
+    
+  </section>
+    
+
+
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+  <script src="script/script.js"></script>
+
+</body>
+
+</html>

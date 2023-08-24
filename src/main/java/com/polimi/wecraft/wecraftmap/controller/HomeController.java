@@ -2,12 +2,12 @@ package com.polimi.wecraft.wecraftmap.controller;
 
 import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
 import com.polimi.wecraft.wecraftmap.dao.PointRepo;
+import com.polimi.wecraft.wecraftmap.service.FilterParams;
 import com.polimi.wecraft.wecraftmap.service.MapPoint;
 import com.polimi.wecraft.wecraftmap.service.MapPointBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +29,11 @@ public class HomeController {
 
             return service.getAllMapPoints();
 
+    }
+
+    @PostMapping(path = "/getPoints", consumes = "application/json")
+    public ResponseEntity<List<MapPoint>> getPoints(@RequestBody FilterParams filterParams){
+
+            return service.getFilteredPoints(filterParams);
     }
 }
