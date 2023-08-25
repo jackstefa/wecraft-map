@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
   crossorigin=""/>
+
+  <link rel="stylesheet" href="/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="/dist/MarkerCluster.Default.css">
+
+
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -60,6 +65,24 @@
               <label for="type4">Paintings</label>
             </div>
           </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type5" class="product-type" type="checkbox" aria-hidden="true" value="ceramic"/>
+              <label for="type5">Ceramics</label>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type6" class="product-type" type="checkbox" aria-hidden="true" value="bag"/>
+              <label for="type6">Bags</label>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type7" class="product-type" type="checkbox" aria-hidden="true" value="wood"/>
+              <label for="type7">Wood</label>
+            </div>
+          </li>
         </ul>
 
 
@@ -76,7 +99,7 @@
             <div class="separator">-</div>
             <div class="price-field">
               <span>Max</span>
-              <input type="number" class="price-input-max" value="10000">
+              <input type="number" class="price-input-max" value="1000">
             </div>
           </div>
 
@@ -84,8 +107,8 @@
             <div class="progress"></div>
           </div>
           <div class="range-input">
-            <input id="priceMin" type="range" class="range-min" min="1" max="10000" value="1">
-            <input id="priceMax" type="range" class="range-max" min="1" max="10000" value="10000">
+            <input id="priceMin" type="range" class="range-min" min="1" max="1000" value="1">
+            <input id="priceMax" type="range" class="range-max" min="1" max="1000" value="1000">
           </div>
 
         </div>
@@ -111,8 +134,10 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
+  <script src="/dist/leaflet.markercluster.js"></script>
   <script src="script/leaflet-providers.js"></script>
   <script src="script/script.js"></script>
+
 
 </body>
 

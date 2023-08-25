@@ -12,7 +12,7 @@ priceInput.forEach(input => {
     let minVal = parseInt(priceInput[0].value),
       maxVal = parseInt(priceInput[1].value);
 
-    if ((maxVal - minVal >= priceGap) && maxVal <= 10000) {
+    if ((maxVal - minVal >= priceGap) && maxVal <= 1000) {
       if (e.target.className === "price-input-min") {
         rangeInput[0].value = minVal;
         progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
@@ -70,12 +70,15 @@ var map = L.map('map', {
 })
 
 var mapLayers = L.control.layers(baseMaps).addTo(map);
-var markerLayerGroup = L.layerGroup().addTo(map);
+//var markerLayerGroup = L.layerGroup().addTo(map);
+var markers = L.markerClusterGroup();
+map.addLayer(markers);
 
 
 function clearAllPoints() {
 
-  markerLayerGroup.clearLayers();
+  //markerLayerGroup.clearLayers();
+  markers.clearLayers();
 
 }
 
@@ -92,14 +95,14 @@ async function showAllPoints() {
 
     for (const mapPoint of data.mapPoints ) {
 
-      L.marker([mapPoint.longitude , mapPoint.latitude]).addTo(markerLayerGroup);
+      //L.marker([mapPoint.latitude , mapPoint.longitude]).addTo(markerLayerGroup);
+      markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]));
     }
 
 
   } catch (error) {
 
   }
-
 }
 
 
@@ -143,7 +146,9 @@ async function showPoints(){
 
     for (const mapPoint of data.mapPoints ) {
 
-      L.marker([mapPoint.longitude , mapPoint.latitude]).addTo(markerLayerGroup);
+      //L.marker([mapPoint.latitude , mapPoint.longitude]).addTo(markerLayerGroup);
+      markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]));
+
     }
 
   } catch (error) {
@@ -152,6 +157,8 @@ async function showPoints(){
   }
 
 }
+
+
 
 
 window.onload = clearAllPoints();
