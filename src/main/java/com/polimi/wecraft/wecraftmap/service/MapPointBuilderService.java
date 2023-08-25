@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -29,7 +31,7 @@ public class MapPointBuilderService {
     ArtisanRepo artisanRepo;
 
 
-    public ResponseEntity<List<MapPoint>> getAllMapPoints(){
+    public ResponseEntity<HashMap<String, List<MapPoint>>> getAllMapPoints(){
 
         try{
             List<MapPoint> mapPoints = new ArrayList<MapPoint>();
@@ -67,14 +69,18 @@ public class MapPointBuilderService {
 
 
             }
-            return new ResponseEntity<>(mapPoints, HttpStatus.OK);
+
+            HashMap<String, List<MapPoint>> response = new HashMap<>();
+            response.put("mapPoints", mapPoints);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    public ResponseEntity<List<MapPoint>> getFilteredPoints(FilterParams filterParams){
+    public ResponseEntity<HashMap<String, List<MapPoint>>> getFilteredPoints(FilterParams filterParams){
 
         ArrayList<String> categories = filterParams.getCategories();
         int priceMin = filterParams.getPriceMin();
@@ -116,7 +122,13 @@ public class MapPointBuilderService {
             if(mapPoints.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            return new ResponseEntity<>(mapPoints, HttpStatus.OK);
+
+            HashMap<String, List<MapPoint>> response = new HashMap<>();
+
+            response.put("mapPoints", mapPoints);
+
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (Exception e) {
 

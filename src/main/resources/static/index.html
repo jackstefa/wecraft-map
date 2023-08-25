@@ -38,20 +38,26 @@
         <ul class="menu-options">
           <li>
             <div class="checkbox-wrapper-1">
-              <input id="type1" class="product-type" type="checkbox" aria-hidden="true" />
-              <label for="type1">Opzione 1</label>
+              <input id="type1" class="product-type" type="checkbox" aria-hidden="true" value="carpet" />
+              <label for="type1">Carpets</label>
             </div>
           </li>
           <li>
             <div class="checkbox-wrapper-1">
-              <input id="type2" class="product-type" type="checkbox" aria-hidden="true" />
-              <label for="type2">Opzione 2</label>
+              <input id="type2" class="product-type" type="checkbox" aria-hidden="true" value="jewel" />
+              <label for="type2">Jewels</label>
             </div>
           </li>
           <li>
             <div class="checkbox-wrapper-1">
-              <input id="type3" class="product-type" type="checkbox" aria-hidden="true" />
-              <label for="type3">Opzione 3</label>
+              <input id="type3" class="product-type" type="checkbox" aria-hidden="true" value="sweater" />
+              <label for="type3">Sweaters</label>
+            </div>
+          </li>
+          <li>
+            <div class="checkbox-wrapper-1">
+              <input id="type4" class="product-type" type="checkbox" aria-hidden="true" value="painting"/>
+              <label for="type4">Paintings</label>
             </div>
           </li>
         </ul>
@@ -78,14 +84,14 @@
             <div class="progress"></div>
           </div>
           <div class="range-input">
-            <input type="range" class="range-min" min="1" max="10000" value="1">
-            <input type="range" class="range-max" min="1" max="10000" value="10000">
+            <input id="priceMin" type="range" class="range-min" min="1" max="10000" value="1">
+            <input id="priceMax" type="range" class="range-max" min="1" max="10000" value="10000">
           </div>
 
         </div>
 
 
-        <button class="button">Trova</button>
+        <button id="findButton" class="button">Trova</button>
       </div>
     </div>
 
@@ -105,6 +111,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
+  <script src="script/leaflet-providers.js"></script>
   <script src="script/script.js"></script>
 
 </body>

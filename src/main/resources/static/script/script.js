@@ -4,7 +4,7 @@ rangeInput = document.querySelectorAll(".range-input input");
 priceInput = document.querySelectorAll(".price-input input");
 progress = document.querySelector(".price-slider .progress");
 
-priceGap = 1000;
+priceGap = 10;
 
 priceInput.forEach(input => {
   input.addEventListener("input", e => {
@@ -44,15 +44,118 @@ priceInput.forEach(input => {
           progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
           progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
         }
-
-    console.log(minVal, maxVal)
   });
 });
 
 
 
 //Map
-var map = L.map('map').setView([51.505, -0.09], 13);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+var osmMap = L.tileLayer.provider('OpenStreetMap.Mapnik');
+var stadiaMap = L.tileLayer.provider('Stadia.Outdoors');
+var opentopoMap = L.tileLayer.provider('OpenTopoMap')
+var imageryMap = L.tileLayer.provider('Esri.WorldImagery');
 
+var baseMaps = {
+  OSM: osmMap,
+  'Stadia Outdoors' : stadiaMap,
+  'Open Topo' : opentopoMap,
+  'World Imagery' : imageryMap
+}
+
+var map = L.map('map', {
+  center: [21.330 , 77.959],
+  zoom: 5,
+  layers:[osmMap]
+})
+
+var mapLayers = L.control.layers(baseMaps).addTo(map);
+var markerLayerGroup = L.layerGroup().addTo(map);
+
+
+function clearAllPoints() {
+
+  markerLayerGroup.clearLayers();
+
+}
+
+async function showAllPoints() {
+
+  try{
+    const response = await fetch('http://localhost:8080/getAllPoints');
+
+    if(!response.ok) {
+      throw new Error('Errore nella richiesta')
+    }
+
+    const data = await response.json();
+
+    for (const mapPoint of data.mapPoints ) {
+
+      L.marker([mapPoint.longitude , mapPoint.latitude]).addTo(markerLayerGroup);
+    }
+
+
+  } catch (error) {
+
+  }
+
+}
+
+
+async function showPoints(){
+
+  const catElements = document.getElementsByClassName("product-type");
+  const categories = [];
+
+  for(const catElement of catElements){
+
+    if(catElement.checked){
+      categories.push(catElement.value);
+    }
+  }
+
+  const filter = {
+    "priceMin": document.getElementById("priceMin").value,
+    "priceMax": document.getElementById("priceMax").value,
+    "categories": categories
+  }
+
+
+  try {
+    const response = await fetch("http://localhost:8080/getPoints", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filter),
+    });
+
+
+    if(response.status === 204) {
+      console.log("No content")
+      clearAllPoints();
+    }
+
+    const data = await response.json();
+
+    clearAllPoints();
+
+    for (const mapPoint of data.mapPoints ) {
+
+      L.marker([mapPoint.longitude , mapPoint.latitude]).addTo(markerLayerGroup);
+    }
+
+  } catch (error) {
+
+
+  }
+
+}
+
+
+window.onload = clearAllPoints();
+window.onload = showAllPoints();
+
+const findButton = document.getElementById("findButton")
+findButton.addEventListener("click", showPoints)
