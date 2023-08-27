@@ -1,11 +1,11 @@
 //TODO: aggiungere riempimento categorie dinamico?
 //Price Slider
 
-rangeInput = document.querySelectorAll(".range-input input");
-priceInput = document.querySelectorAll(".price-input input");
-progress = document.querySelector(".price-slider .progress");
+let rangeInput = document.querySelectorAll(".range-input input");
+let priceInput = document.querySelectorAll(".price-input input");
+let progress = document.querySelector(".price-slider .progress");
 
-priceGap = 10;
+let priceGap = 10;
 
 priceInput.forEach(input => {
   input.addEventListener("input", e => {
