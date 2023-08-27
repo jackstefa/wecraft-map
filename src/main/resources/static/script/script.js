@@ -1,3 +1,4 @@
+//TODO: aggiungere riempimento categorie dinamico?
 //Price Slider
 
 rangeInput = document.querySelectorAll(".range-input input");
@@ -69,17 +70,48 @@ var map = L.map('map', {
   layers:[osmMap]
 })
 
+
+//Layers
+
 var mapLayers = L.control.layers(baseMaps).addTo(map);
-//var markerLayerGroup = L.layerGroup().addTo(map);
 var markers = L.markerClusterGroup();
 map.addLayer(markers);
 
 
+//Functions
+
+function makePopupContent(mapPoint){
+  return `
+    <div>
+      <h3>${mapPoint.itemName} </h3>
+      <p> ${mapPoint.informations}</p>
+      <p> Prezzo: ${mapPoint.price}€</p>
+      <p> Quantità: ${mapPoint.quantity}</p>
+      <p> Artigiano: ${mapPoint.artisanName}</p>
+      <div class="image-container">
+        <img src="./img/${mapPoint.imageid}.jpg" alt="">
+      </div><br>
+      <h4>Contact:</h4>
+      <div class = "email">
+        <a href="mailto:${mapPoint.email}">${mapPoint.email}</a>
+      </div>
+      <div class = "phone-number">
+        <a href="tel:${mapPoint.phoneNumber}">${mapPoint.phoneNumber}</a>
+      </div>
+    </div>
+
+`}
+
 function clearAllPoints() {
 
-  //markerLayerGroup.clearLayers();
   markers.clearLayers();
+}
 
+function placePoints(data){
+
+  for (const mapPoint of data.mapPoints ) {
+    markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]).bindPopup(makePopupContent(mapPoint)));
+  }
 }
 
 async function showAllPoints() {
@@ -87,21 +119,28 @@ async function showAllPoints() {
   try{
     const response = await fetch('http://localhost:8080/getAllPoints');
 
-    if(!response.ok) {
-      throw new Error('Errore nella richiesta')
+    if(response.status === 204) {
+      showError("Nessun contenuto");
     }
+
+    if(response.status === 400) {
+      showError("Parametri non validi");
+    }
+
+    if(response.status === 500) {
+      showError("Errore interno del server")
+    }
+    clearAllPoints();
 
     const data = await response.json();
 
-    for (const mapPoint of data.mapPoints ) {
-
-      //L.marker([mapPoint.latitude , mapPoint.longitude]).addTo(markerLayerGroup);
-      markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]));
-    }
-
+    placePoints(data);
 
   } catch (error) {
 
+    if (error.message === "Failed to fetch") {
+      window.alert("Server non raggiungibile");
+    }
   }
 }
 
@@ -134,35 +173,53 @@ async function showPoints(){
       body: JSON.stringify(filter),
     });
 
-
     if(response.status === 204) {
-      console.log("No content")
-      clearAllPoints();
+      showError("Nessun contenuto");
     }
+
+    if(response.status === 400) {
+      showError("Parametri non validi");
+    }
+
+    if(response.status === 500) {
+      showError("Errore interno del server")
+    }
+
+    clearAllPoints();
 
     const data = await response.json();
 
     clearAllPoints();
 
-    for (const mapPoint of data.mapPoints ) {
-
-      //L.marker([mapPoint.latitude , mapPoint.longitude]).addTo(markerLayerGroup);
-      markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]));
-
-    }
+    placePoints(data);
 
   } catch (error) {
 
-
+    if (error.message === "Failed to fetch") {
+      window.alert("Server non raggiungibile");
+    }
   }
 
 }
 
+//Errors
+function showError(text){
+
+  const element = document.getElementById("error-message");
+  element.textContent = text;
+
+}
+
+function clearError() {
+  const element = document.getElementById("error-message");
+  element.textContent = "";
+}
 
 
 
 window.onload = clearAllPoints();
 window.onload = showAllPoints();
 
-const findButton = document.getElementById("findButton")
-findButton.addEventListener("click", showPoints)
+const findButton = document.getElementById("findButton");
+findButton.addEventListener("click", showPoints);
+findButton.addEventListener("click", clearError);

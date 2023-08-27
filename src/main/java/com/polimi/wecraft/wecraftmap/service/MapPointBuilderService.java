@@ -3,9 +3,7 @@ package com.polimi.wecraft.wecraftmap.service;
 import com.polimi.wecraft.wecraftmap.dao.ArtisanRepo;
 import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
 import com.polimi.wecraft.wecraftmap.dao.PointRepo;
-import com.polimi.wecraft.wecraftmap.model.Artisan;
-import com.polimi.wecraft.wecraftmap.model.Item;
-import com.polimi.wecraft.wecraftmap.model.Point;
+import com.polimi.wecraft.wecraftmap.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -86,6 +83,22 @@ public class MapPointBuilderService {
         int priceMin = filterParams.getPriceMin();
         int priceMax = filterParams.getPriceMax();
 
+        //Parameters checking
+        for(String category : categories){
+
+            if(!Categories.contains(category)){
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        if((priceMin > priceMax) || (priceMin < Constants.PRICE_MIN) || (priceMax > Constants.PRICE_MAX)){
+            System.out.println("pricemin" + priceMin);
+            System.out.println("pricemax" + priceMax);
+            System.out.println("Sono entrato nel param check del prezzo");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        //Building mapPoints
         try{
             List<MapPoint> mapPoints = new ArrayList<MapPoint>();
 
@@ -122,16 +135,12 @@ public class MapPointBuilderService {
             if(mapPoints.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-
             HashMap<String, List<MapPoint>> response = new HashMap<>();
-
             response.put("mapPoints", mapPoints);
-
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (Exception e) {
-
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

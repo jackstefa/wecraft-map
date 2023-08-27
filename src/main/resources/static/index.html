@@ -94,7 +94,7 @@
           <div class="price-input">
             <div class="price-field">
               <span>Min</span>
-              <input type="number" class="price-input-min" value="1">
+              <input type="number" class="price-input-min" value="5">
             </div>
             <div class="separator">-</div>
             <div class="price-field">
@@ -107,14 +107,19 @@
             <div class="progress"></div>
           </div>
           <div class="range-input">
-            <input id="priceMin" type="range" class="range-min" min="1" max="1000" value="1">
-            <input id="priceMax" type="range" class="range-max" min="1" max="1000" value="1000">
+            <input id="priceMin" type="range" class="range-min" min="5" max="1000" value="5">
+            <input id="priceMax" type="range" class="range-max" min="5" max="1000" value="1000">
           </div>
 
         </div>
 
 
         <button id="findButton" class="button">Trova</button>
+
+        <div class="error-wrapper">
+          <p class="error-message" id="error-message"></p>
+        </div>
+
       </div>
     </div>
 
