@@ -1,4 +1,4 @@
-package com.polimi.wecraft.wecraftmap.model;
+package com.polimi.wecraft.wecraftmap.utils;
 
 public enum Categories {
     CARPET("carpet"),

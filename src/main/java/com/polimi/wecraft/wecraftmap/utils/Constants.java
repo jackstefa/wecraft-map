@@ -1,4 +1,4 @@
-package com.polimi.wecraft.wecraftmap.model;
+package com.polimi.wecraft.wecraftmap.utils;
 
 public class Constants {
     public static final int PRICE_MIN = 5;

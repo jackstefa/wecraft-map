@@ -2,8 +2,8 @@ package com.polimi.wecraft.wecraftmap.controller;
 
 import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
 import com.polimi.wecraft.wecraftmap.dao.PointRepo;
-import com.polimi.wecraft.wecraftmap.service.FilterParams;
-import com.polimi.wecraft.wecraftmap.service.MapPoint;
+import com.polimi.wecraft.wecraftmap.model.body.FilterParams;
+import com.polimi.wecraft.wecraftmap.model.response.MapPoint;
 import com.polimi.wecraft.wecraftmap.service.MapPointBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

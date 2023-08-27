@@ -1,4 +1,4 @@
-package com.polimi.wecraft.wecraftmap.service;
+package com.polimi.wecraft.wecraftmap.model.body;
 
 import java.util.ArrayList;
 import java.util.List;

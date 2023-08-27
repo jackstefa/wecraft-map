@@ -5,6 +5,10 @@ import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
 import com.polimi.wecraft.wecraftmap.dao.PointRepo;
 import com.polimi.wecraft.wecraftmap.model.*;
 
+import com.polimi.wecraft.wecraftmap.model.body.FilterParams;
+import com.polimi.wecraft.wecraftmap.model.response.MapPoint;
+import com.polimi.wecraft.wecraftmap.utils.Categories;
+import com.polimi.wecraft.wecraftmap.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.polimi.wecraft.wecraftmap.service;
+package com.polimi.wecraft.wecraftmap.model.response;
 
 
 public class MapPoint {
