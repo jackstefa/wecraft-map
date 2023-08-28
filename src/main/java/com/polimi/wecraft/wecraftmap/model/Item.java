@@ -14,24 +14,22 @@ public class Item {
     private String name;
 
     @Column(name = "artisanid")
-    private int artisanid;
+    private long artisanid;
 
     @Column(name = "price")
     private int price;
 
-    @Column(name = "category")
-    private String category;
+    @Column(name = "categoryid")
+    private long categoryid;
 
     @Column(name = "imageid")
-    private int imageid;
+    private String imageid;
 
-    @Column(name = "informations")
-    private String informations;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "quantity")
     private int quantity;
-
-
 
     public long getId() {
         return id;
@@ -41,11 +39,19 @@ public class Item {
         this.id = id;
     }
 
-    public int getArtisanid() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getArtisanid() {
         return artisanid;
     }
 
-    public void setArtisanid(int artisanid) {
+    public void setArtisanid(long artisanid) {
         this.artisanid = artisanid;
     }
 
@@ -57,28 +63,28 @@ public class Item {
         this.price = price;
     }
 
-    public String getCategory() {
-        return category;
+    public long getCategoryid() {
+        return categoryid;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryid(long categoryid) {
+        this.categoryid = categoryid;
     }
 
-    public int getImageid() {
+    public String getImageid() {
         return imageid;
     }
 
-    public void setImageid(int imageid) {
+    public void setImageid(String imageid) {
         this.imageid = imageid;
     }
 
-    public String getInformations() {
-        return informations;
+    public String getDescription() {
+        return description;
     }
 
-    public void setInformations(String informations) {
-        this.informations = informations;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {
@@ -87,13 +93,5 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

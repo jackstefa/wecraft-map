@@ -1,7 +1,6 @@
 package com.polimi.wecraft.wecraftmap.controller;
 
 import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
-import com.polimi.wecraft.wecraftmap.dao.PointRepo;
 import com.polimi.wecraft.wecraftmap.model.body.FilterParams;
 import com.polimi.wecraft.wecraftmap.model.response.MapPoint;
 import com.polimi.wecraft.wecraftmap.service.MapPointBuilderService;
@@ -17,12 +16,6 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    PointRepo pointRepo;
-
-    @Autowired
-    ItemRepo itemRepo;
-
-    @Autowired
     MapPointBuilderService service;
 
 
@@ -34,7 +27,7 @@ public class HomeController {
 
     }
 
-    @PostMapping(path = "/getPoints", consumes = "application/json")
+    @PostMapping(path = "/getFilteredPoints", consumes = "application/json")
     public ResponseEntity<HashMap<String, List<MapPoint>>> getPoints(@RequestBody FilterParams filterParams){
 
             return service.getFilteredPoints(filterParams);

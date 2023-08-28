@@ -80,27 +80,50 @@ map.addLayer(markers);
 
 //Functions
 
-function makePopupContent(mapPoint){
-  return `
+function makePopupContent(artisan){
+
+  var htmlString = `
     <div>
-      <h3>${mapPoint.itemName} </h3>
-      <p> ${mapPoint.informations}</p>
-      <p> Prezzo: ${mapPoint.price}€</p>
-      <p> Quantità: ${mapPoint.quantity}</p>
-      <p> Artigiano: ${mapPoint.artisanName}</p>
-      <div class="image-container">
-        <img src="./img/${mapPoint.imageid}.jpg" alt="">
-      </div><br>
-      <h4>Contact:</h4>
+      <h2>${artisan.artisanName}</h2>
+      </div>
+      <h3>Contact:</h3>
       <div class = "email">
-        <a href="mailto:${mapPoint.email}">${mapPoint.email}</a>
+        <a href="mailto:${artisan.email}">${artisan.email}</a>
       </div>
       <div class = "phone-number">
-        <a href="tel:${mapPoint.phoneNumber}">${mapPoint.phoneNumber}</a>
-      </div>
-    </div>
+        <a href="tel:${artisan.phoneNumber}">${artisan.phoneNumber}</a>
+      </div> 
+      <br>
+      
+      <div class="items-container">
+    `
 
-`}
+  for(const artisanItem of artisan.itemsList){
+
+    htmlString = htmlString + `
+
+        
+          <div class="item-container">
+            <div class="item-details-container">
+              <h3>${artisanItem.itemName}</h3>
+              <h4>${artisanItem.itemDescription}</h4>
+              <p>Price: ${artisanItem.price}</p>
+              <p>Category: ${artisanItem.category}</p>
+              <p>Quantity: ${artisanItem.quantity}</p>
+            </div>
+            <div class="image-container">
+              <img src="./img/${artisanItem.imageid}.jpg" alt="">
+            </div>
+            <hr class="items-separator">
+          </div>
+        
+  `
+  }
+
+  htmlString = htmlString + `</div>`
+
+  return htmlString;
+}
 
 function clearAllPoints() {
 
@@ -109,10 +132,12 @@ function clearAllPoints() {
 
 function placePoints(data){
 
-  for (const mapPoint of data.mapPoints ) {
-    markers.addLayer(L.marker([mapPoint.latitude , mapPoint.longitude]).bindPopup(makePopupContent(mapPoint)));
+  for (const artisan of data.artisans ) {
+    markers.addLayer(L.marker([artisan.latitude , artisan.longitude]).bindPopup(makePopupContent(artisan), {maxWidth : 400}));
   }
 }
+
+//Calls to back-end
 
 async function showAllPoints() {
 
@@ -121,10 +146,6 @@ async function showAllPoints() {
 
     if(response.status === 204) {
       showError("Nessun contenuto");
-    }
-
-    if(response.status === 400) {
-      showError("Parametri non validi");
     }
 
     if(response.status === 500) {
@@ -145,7 +166,7 @@ async function showAllPoints() {
 }
 
 
-async function showPoints(){
+async function showFilteredPoints(){
 
   const catElements = document.getElementsByClassName("product-type");
   const categories = [];
@@ -165,7 +186,7 @@ async function showPoints(){
 
 
   try {
-    const response = await fetch("http://localhost:8080/getPoints", {
+    const response = await fetch("http://localhost:8080/getFilteredPoints", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -218,8 +239,9 @@ function clearError() {
 
 
 window.onload = clearAllPoints();
+//window.onload = populateFilters();
 window.onload = showAllPoints();
 
 const findButton = document.getElementById("findButton");
-findButton.addEventListener("click", showPoints);
+findButton.addEventListener("click", showFilteredPoints);
 findButton.addEventListener("click", clearError);

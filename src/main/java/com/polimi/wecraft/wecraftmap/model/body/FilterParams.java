@@ -9,14 +9,13 @@ public class FilterParams {
 
     private int priceMax;
 
-    private ArrayList<String> categories;
+    private long[] categories;
 
-    public FilterParams(int priceMin, int priceMax, ArrayList<String> categories) {
+    public FilterParams(int priceMin, int priceMax, long[] categories) {
         this.priceMin = priceMin;
         this.priceMax = priceMax;
         this.categories = categories;
     }
-
 
     public int getPriceMin() {
         return priceMin;
@@ -34,11 +33,11 @@ public class FilterParams {
         this.priceMax = priceMax;
     }
 
-    public ArrayList<String> getCategories() {
+    public long[] getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<String> categories) {
+    public void setCategories(long[] categories) {
         this.categories = categories;
     }
 }

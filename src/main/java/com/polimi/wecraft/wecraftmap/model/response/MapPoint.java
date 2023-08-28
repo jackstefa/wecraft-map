@@ -1,37 +1,17 @@
 package com.polimi.wecraft.wecraftmap.model.response;
 
 
+import java.util.ArrayList;
+
 public class MapPoint {
 
-    private double longitude;
     private double latitude;
-
-    private String itemName;
-
-    private int price;
-
-    private String category;
-
-    private int imageid;
-
-    private String informations;
-
-    private int quantity;
-
+    private double longitude;
     private String artisanName;
-
     private String email;
-
     private String phoneNumber;
+    private ArrayList<ClientItem> itemsList;
 
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 
     public double getLatitude() {
         return latitude;
@@ -41,44 +21,12 @@ public class MapPoint {
         this.latitude = latitude;
     }
 
-    public String getItemName() {
-        return itemName;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public int getImageid() {
-        return imageid;
-    }
-
-    public void setImageid(int imageid) {
-        this.imageid = imageid;
-    }
-
-    public String getInformations() {
-        return informations;
-    }
-
-    public void setInformations(String informations) {
-        this.informations = informations;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getArtisanName() {
@@ -105,11 +53,11 @@ public class MapPoint {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPrice() {
-        return price;
+    public ArrayList<ClientItem> getItemsList() {
+        return itemsList;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setItemsList(ArrayList<ClientItem> itemsList) {
+        this.itemsList = itemsList;
     }
 }

@@ -285,19 +285,60 @@ input[type="range"]::-moz-range-thumb{
   font-size: medium;
 }
 
+/* Marker popup styling*/
 
-/* Map Point image style */
+.items-container {
+  width: 400px;
+  height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+
+.items-separator {
+  width: auto;
+  background-color: #a1a1a1;
+  border: none;
+  height: 1px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
 
 .image-container {
-  width: 300px;
+  width: auto;
   max-height: 500px;
   height: auto;
   overflow: hidden;
 }
 
 .image-container img {
-  width: 100%;
+  width: 95%;
   height: auto;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+/* Scroll bar */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* Checkbox style */

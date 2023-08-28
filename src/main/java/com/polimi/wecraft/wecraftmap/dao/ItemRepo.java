@@ -8,11 +8,8 @@ import java.util.List;
 public interface ItemRepo extends CrudRepository<Item, Long> {
 
 
-    Item findById(long id);
-    Item findByCategory(String category);
+    List<Item> findByArtisanid(long artisanid);
 
-    List<Item> findByCategoryAndPriceBetween(String category, int priceMin, int priceMax);
-
-    Item findByPriceBetween(int priceMin, int priceMax);
+    List<Item> findByArtisanidAndCategoryidAndPriceBetween(long artisanid, long categoryid, int priceMin, int priceMax);
 
 }

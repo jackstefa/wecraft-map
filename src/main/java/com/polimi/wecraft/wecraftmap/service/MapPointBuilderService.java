@@ -1,13 +1,13 @@
 package com.polimi.wecraft.wecraftmap.service;
 
 import com.polimi.wecraft.wecraftmap.dao.ArtisanRepo;
+import com.polimi.wecraft.wecraftmap.dao.CategoryRepo;
 import com.polimi.wecraft.wecraftmap.dao.ItemRepo;
-import com.polimi.wecraft.wecraftmap.dao.PointRepo;
 import com.polimi.wecraft.wecraftmap.model.*;
 
 import com.polimi.wecraft.wecraftmap.model.body.FilterParams;
+import com.polimi.wecraft.wecraftmap.model.response.ClientItem;
 import com.polimi.wecraft.wecraftmap.model.response.MapPoint;
-import com.polimi.wecraft.wecraftmap.utils.Categories;
 import com.polimi.wecraft.wecraftmap.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.List;
 public class MapPointBuilderService {
 
     @Autowired
-    PointRepo pointRepo;
+    CategoryRepo categoryRepo;
 
     @Autowired
     ItemRepo itemRepo;
@@ -35,46 +35,55 @@ public class MapPointBuilderService {
     public ResponseEntity<HashMap<String, List<MapPoint>>> getAllMapPoints(){
 
         try{
-            List<MapPoint> mapPoints = new ArrayList<MapPoint>();
+            List<MapPoint> mapPoints = new ArrayList<>();
 
+            List<Artisan> artisans = (List<Artisan>) artisanRepo.findAll();
 
-            List<Point> points = (List<Point>) pointRepo.findAll();
-
-            if(points.isEmpty())
+            if(artisans.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            for(Point point : points){
+            for(Artisan artisan : artisans){
 
                 MapPoint mapPoint = new MapPoint();
 
-                mapPoint.setLongitude(point.getLongitude());
-                mapPoint.setLatitude(point.getLatitude());
-
-                Item item = itemRepo.findById(point.getItemid());
-
-                mapPoint.setItemName(item.getName());
-                mapPoint.setCategory(item.getCategory());
-                mapPoint.setPrice(item.getPrice());
-                mapPoint.setImageid(item.getImageid());
-                mapPoint.setInformations(item.getInformations());
-                mapPoint.setQuantity(item.getQuantity());
-
-
-                Artisan artisan = artisanRepo.findById(item.getArtisanid());
-
+                mapPoint.setLatitude(artisan.getLatitude());
+                mapPoint.setLongitude(artisan.getLongitude());
                 mapPoint.setArtisanName(artisan.getName());
                 mapPoint.setEmail(artisan.getEmail());
                 mapPoint.setPhoneNumber(artisan.getPhonenumber());
 
+                List<Item> items = itemRepo.findByArtisanid(artisan.getId());
+
+                if(items.isEmpty()){
+                    mapPoint.setItemsList(null);
+                }
+                else {
+                    ArrayList<ClientItem> clientItems = new ArrayList<>();
+
+                    for(Item item : items){
+
+                        ClientItem clientItem = new ClientItem();
+                        clientItem.setCategory(categoryRepo.findNameById(item.getCategoryid()));
+                        clientItem.setItemDescription(item.getDescription());
+                        clientItem.setQuantity(item.getQuantity());
+                        clientItem.setPrice(item.getPrice());
+                        clientItem.setItemName(item.getName());
+                        clientItem.setImageid(item.getImageid());
+
+                        clientItems.add(clientItem);
+                    }
+
+                    mapPoint.setItemsList(clientItems);
+                }
                 mapPoints.add(mapPoint);
-
-
             }
 
+
             HashMap<String, List<MapPoint>> response = new HashMap<>();
-            response.put("mapPoints", mapPoints);
+            response.put("artisans", mapPoints);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -83,71 +92,81 @@ public class MapPointBuilderService {
 
     public ResponseEntity<HashMap<String, List<MapPoint>>> getFilteredPoints(FilterParams filterParams){
 
-        ArrayList<String> categories = filterParams.getCategories();
         int priceMin = filterParams.getPriceMin();
         int priceMax = filterParams.getPriceMax();
 
         //Parameters checking
-        for(String category : categories){
+        if((priceMin > priceMax) || priceMin < Constants.PRICE_MIN || priceMax > Constants.PRICE_MAX){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-            if(!Categories.contains(category)){
+        }
+
+        for(long id : filterParams.getCategories()){
+
+            if(categoryRepo.findById(id).isEmpty()){
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
         }
 
-        if((priceMin > priceMax) || (priceMin < Constants.PRICE_MIN) || (priceMax > Constants.PRICE_MAX)){
-            System.out.println("pricemin" + priceMin);
-            System.out.println("pricemax" + priceMax);
-            System.out.println("Sono entrato nel param check del prezzo");
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
 
-        //Building mapPoints
         try{
-            List<MapPoint> mapPoints = new ArrayList<MapPoint>();
+            List<MapPoint> mapPoints = new ArrayList<>();
 
-            for(String category : categories){
+            List<Artisan> artisans = (List<Artisan>) artisanRepo.findAll();
 
-                List<Item> items = itemRepo.findByCategoryAndPriceBetween(category, priceMin, priceMax);
+            if(artisans.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-                for(Item item : items) {
+            for(Artisan artisan : artisans){
 
-                    MapPoint mapPoint = new MapPoint();
+                MapPoint mapPoint = new MapPoint();
+                ArrayList<Item> itemsList = new ArrayList<>();
 
-                    mapPoint.setCategory(item.getCategory());
-                    mapPoint.setImageid(item.getImageid());
-                    mapPoint.setInformations(item.getInformations());
-                    mapPoint.setItemName(item.getName());
-                    mapPoint.setPrice(item.getPrice());
-                    mapPoint.setQuantity(item.getQuantity());
+                for(long categoryId : filterParams.getCategories()){
 
-                    Artisan artisan = artisanRepo.findById(item.getArtisanid());
+                    List<Item> items = itemRepo.findByArtisanidAndCategoryidAndPriceBetween(artisan.getId(), categoryId, filterParams.getPriceMin(), filterParams.getPriceMax());
+                    itemsList.addAll(items);
+                }
 
+                if(itemsList.isEmpty()){
+                    mapPoint.setItemsList(null);
+                }
+                else {
+                    ArrayList<ClientItem> clientItems = new ArrayList<>();
+
+                    for(Item item : itemsList){
+
+                        ClientItem clientItem = new ClientItem();
+                        clientItem.setCategory(categoryRepo.findNameById(item.getCategoryid()));
+                        clientItem.setItemDescription(item.getDescription());
+                        clientItem.setQuantity(item.getQuantity());
+                        clientItem.setPrice(item.getPrice());
+                        clientItem.setItemName(item.getName());
+                        clientItem.setImageid(item.getImageid());
+
+                        clientItems.add(clientItem);
+                    }
+
+                    mapPoint.setItemsList(clientItems);
+
+                    mapPoint.setLatitude(artisan.getLatitude());
+                    mapPoint.setLongitude(artisan.getLongitude());
                     mapPoint.setArtisanName(artisan.getName());
                     mapPoint.setEmail(artisan.getEmail());
                     mapPoint.setPhoneNumber(artisan.getPhonenumber());
 
-                    Point point = pointRepo.findByItemid(item.getId());
-
-                    mapPoint.setLongitude(point.getLongitude());
-                    mapPoint.setLatitude(point.getLatitude());
-
                     mapPoints.add(mapPoint);
                 }
+
             }
 
-            if(mapPoints.isEmpty())
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
             HashMap<String, List<MapPoint>> response = new HashMap<>();
-            response.put("mapPoints", mapPoints);
+            response.put("artisans", mapPoints);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 }
