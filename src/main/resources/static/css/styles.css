@@ -88,6 +88,14 @@ header .image-text .header-text {
   margin-top: 30px;
 }
 
+/* Categories container style */
+.categories-container {
+  width: 300px;
+  height: auto;
+  max-height: 280px;
+  overflow-x: hidden;
+}
+
 /* Price range style */
 
 .price-wrapper header h2{
@@ -270,7 +278,7 @@ input[type="range"]::-moz-range-thumb{
 
 /* Error message */
 
-.error-wrapper {
+.message-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,6 +290,14 @@ input[type="range"]::-moz-range-thumb{
   position: absolute;
   text-align: center;
   color: red;
+  font-size: medium;
+}
+
+.nocontent-message{
+  display:flex;
+  position: absolute;
+  text-align: center;
+  color: #727272;
   font-size: medium;
 }
 

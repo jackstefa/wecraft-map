@@ -12,7 +12,7 @@
     <artifactId>wecraft-map</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>wecraft-map</name>
-    <itemDescription>wecraft-map</itemDescription>
+    <description>wecraft-map</description>
     <properties>
         <java.version>20</java.version>
     </properties>

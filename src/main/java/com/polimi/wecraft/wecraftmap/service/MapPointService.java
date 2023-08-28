@@ -8,7 +8,6 @@ import com.polimi.wecraft.wecraftmap.model.*;
 import com.polimi.wecraft.wecraftmap.model.body.FilterParams;
 import com.polimi.wecraft.wecraftmap.model.response.ClientItem;
 import com.polimi.wecraft.wecraftmap.model.response.MapPoint;
-import com.polimi.wecraft.wecraftmap.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import java.util.List;
 
 
 @Service
-public class MapPointBuilderService {
+public class MapPointService {
 
     @Autowired
     CategoryRepo categoryRepo;
@@ -96,7 +95,7 @@ public class MapPointBuilderService {
         int priceMax = filterParams.getPriceMax();
 
         //Parameters checking
-        if((priceMin > priceMax) || priceMin < Constants.PRICE_MIN || priceMax > Constants.PRICE_MAX){
+        if((priceMin > priceMax) || priceMin < itemRepo.minPrice() || priceMax > itemRepo.maxPrice()){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         }

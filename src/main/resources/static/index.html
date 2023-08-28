@@ -40,49 +40,8 @@
     <div class="menu-bar">
       <div class="menu">
         <h2>Products:</h2>
-        <ul class="menu-options">
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type1" class="product-type" type="checkbox" aria-hidden="true" value="1" autocomplete='off' />
-              <label for="type1">Carpets</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type2" class="product-type" type="checkbox" aria-hidden="true" value="2" autocomplete='off'/>
-              <label for="type2">Jewels</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type3" class="product-type" type="checkbox" aria-hidden="true" value="3" autocomplete='off'/>
-              <label for="type3">Sweaters</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type4" class="product-type" type="checkbox" aria-hidden="true" value="4" autocomplete='off'/>
-              <label for="type4">Paintings</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type5" class="product-type" type="checkbox" aria-hidden="true" value="5" autocomplete='off'/>
-              <label for="type5">Ceramics</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type6" class="product-type" type="checkbox" aria-hidden="true" value="6" autocomplete='off'/>
-              <label for="type6">Bags</label>
-            </div>
-          </li>
-          <li>
-            <div class="checkbox-wrapper-1">
-              <input id="type7" class="product-type" type="checkbox" aria-hidden="true" value="7" autocomplete='off'/>
-              <label for="type7">Wood</label>
-            </div>
-          </li>
+        <ul id="categories-container" class="categories-container">
+
         </ul>
 
 
@@ -94,12 +53,12 @@
           <div class="price-input">
             <div class="price-field">
               <span>Min</span>
-              <input type="number" class="price-input-min" value="10" autocomplete='off'>
+              <input id="priceMin-field" type="number" class="price-input-min"  autocomplete='off'>
             </div>
             <div class="separator">-</div>
             <div class="price-field">
               <span>Max</span>
-              <input type="number" class="price-input-max" value="1000" autocomplete='off'>
+              <input id="priceMax-field" type="number" class="price-input-max"  autocomplete='off'>
             </div>
           </div>
 
@@ -107,8 +66,8 @@
             <div class="progress"></div>
           </div>
           <div class="range-input">
-            <input id="priceMin" type="range" class="range-min" min="10" max="1000" value="10" autocomplete='off'>
-            <input id="priceMax" type="range" class="range-max" min="10" max="1000" value="1000" autocomplete='off'>
+            <input id="priceMin" type="range" class="range-min"  autocomplete='off'>
+            <input id="priceMax" type="range" class="range-max"  autocomplete='off'>
           </div>
 
         </div>
@@ -116,8 +75,9 @@
 
         <button id="findButton" class="button">Search</button>
 
-        <div class="error-wrapper">
+        <div class="message-container">
           <p class="error-message" id="error-message"></p>
+          <p class="nocontent-message" id="nocontent-message"></p>
         </div>
 
       </div>
