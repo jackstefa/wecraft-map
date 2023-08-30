@@ -21,17 +21,17 @@ public class FiltersService {
     @Autowired
     ItemRepo itemRepo;
 
+    //build a response object to provide filter entries to the UI
     public ResponseEntity<HashMap<String, ClientFilters>> getFilters(){
 
         try{
 
             ClientFilters clientFilters = new ClientFilters();
 
-
-
+            //querying database
             ArrayList<Category> categories= (ArrayList<Category>) categoryRepo.findAll();
-
             clientFilters.setCategories(categories);
+
             clientFilters.setPriceMin(itemRepo.minPrice());
             clientFilters.setPriceMax(itemRepo.maxPrice());
 

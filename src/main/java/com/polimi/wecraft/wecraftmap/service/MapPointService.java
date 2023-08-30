@@ -31,6 +31,7 @@ public class MapPointService {
     ArtisanRepo artisanRepo;
 
 
+    //build a response object to provide all the data for showing map markers
     public ResponseEntity<HashMap<String, List<MapPoint>>> getAllMapPoints(){
 
         try{
@@ -41,16 +42,19 @@ public class MapPointService {
             if(artisans.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+            //for each artisan create a Map marker
             for(Artisan artisan : artisans){
 
                 MapPoint mapPoint = new MapPoint();
 
+                //adding artisan details
                 mapPoint.setLatitude(artisan.getLatitude());
                 mapPoint.setLongitude(artisan.getLongitude());
                 mapPoint.setArtisanName(artisan.getName());
                 mapPoint.setEmail(artisan.getEmail());
                 mapPoint.setPhoneNumber(artisan.getPhonenumber());
 
+                //querying database to retrieve items on sale by that artisan
                 List<Item> items = itemRepo.findByArtisanid(artisan.getId());
 
                 if(items.isEmpty()){
@@ -59,6 +63,7 @@ public class MapPointService {
                 else {
                     ArrayList<ClientItem> clientItems = new ArrayList<>();
 
+                    //building item list
                     for(Item item : items){
 
                         ClientItem clientItem = new ClientItem();
@@ -89,12 +94,14 @@ public class MapPointService {
 
     }
 
+    //build a response object to provide all the data for showing map markers (filtered)
     public ResponseEntity<HashMap<String, List<MapPoint>>> getFilteredPoints(FilterParams filterParams){
 
+        //getting filters
         int priceMin = filterParams.getPriceMin();
         int priceMax = filterParams.getPriceMax();
 
-        //Parameters checking
+        //parameters checking
         if((priceMin > priceMax) || priceMin < itemRepo.minPrice() || priceMax > itemRepo.maxPrice()){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
@@ -108,6 +115,7 @@ public class MapPointService {
         }
 
 
+
         try{
             List<MapPoint> mapPoints = new ArrayList<>();
 
@@ -116,11 +124,13 @@ public class MapPointService {
             if(artisans.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+            //for each artisan create a Map marker
             for(Artisan artisan : artisans){
 
                 MapPoint mapPoint = new MapPoint();
                 ArrayList<Item> itemsList = new ArrayList<>();
 
+                //querying database to retrieve items on sale by that artisan (filtered)
                 for(long categoryId : filterParams.getCategories()){
 
                     List<Item> items = itemRepo.findByArtisanidAndCategoryidAndPriceBetween(artisan.getId(), categoryId, filterParams.getPriceMin(), filterParams.getPriceMax());
@@ -133,6 +143,7 @@ public class MapPointService {
                 else {
                     ArrayList<ClientItem> clientItems = new ArrayList<>();
 
+                    //building item list
                     for(Item item : itemsList){
 
                         ClientItem clientItem = new ClientItem();

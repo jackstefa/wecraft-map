@@ -1,8 +1,5 @@
 package com.polimi.wecraft.wecraftmap.model.body;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FilterParams {
 
     private int priceMin;

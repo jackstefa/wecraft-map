@@ -1,4 +1,4 @@
-//Maps
+/* MAPS */ 
 var osmMap = L.tileLayer.provider('OpenStreetMap.Mapnik');
 var stadiaMap = L.tileLayer.provider('Stadia.Outdoors');
 var imageryMap = L.tileLayer.provider('Esri.WorldImagery');
@@ -16,15 +16,14 @@ var map = L.map('map', {
 })
 
 
-//Layers
+/* LAYERS */
 
 var mapLayers = L.control.layers(baseMaps).addTo(map);
 var markers = L.markerClusterGroup();
 map.addLayer(markers);
 
 
-//Functions
-
+/* FUNCTIONS */
 function makePopupContent(artisan){
 
   var htmlString = `
@@ -71,18 +70,17 @@ function makePopupContent(artisan){
 }
 
 function clearAllPoints() {
-
   markers.clearLayers();
 }
 
 function placePoints(data){
-
+  
   for (const artisan of data.artisans ) {
     markers.addLayer(L.marker([artisan.latitude , artisan.longitude]).bindPopup(makePopupContent(artisan), {maxWidth : 400}));
   }
 }
 
-//Calls to back-end
+/* CALLS TO BACK-END */
 
 async function showAllPoints() {
 
@@ -113,22 +111,25 @@ async function showAllPoints() {
 
 async function showFilteredPoints(){
 
+  //getting checkboxes
   const catElements = document.getElementsByClassName("product-type");
   const categories = [];
 
+  //checking if are checked or not
   for(const catElement of catElements){
     if(catElement.checked){
       categories.push(catElement.value);
     }
   }
 
+  //if all are unchecked, it means all categories selected
   if(categories.length === 0){
     for(const catElement of catElements){
         categories.push(catElement.value);
     }
   }
 
-
+  //building body
   const filter = {
     "priceMin": document.getElementById("priceMin").value,
     "priceMax": document.getElementById("priceMax").value,
@@ -179,7 +180,7 @@ async function showFilteredPoints(){
 }
 
 
-//Adding filter entries dynamically
+//Adding filter entries from back-end
 async function populateFilters(){
 
   try{
@@ -204,6 +205,7 @@ async function populateFilters(){
   }
 }
 
+//setting price range values
 function setPriceRange(priceMin, priceMax){
 
   let priceMinField = document.getElementById("priceMin-field");
@@ -277,6 +279,7 @@ function setPriceRange(priceMin, priceMax){
 
 }
 
+//setting checkboxes and values dynamically
 function setCategories(categories){
 
   let cnt= 1
@@ -315,7 +318,7 @@ function setCategories(categories){
 
 }
 
-//Errors
+/* ERRORS */
 function showError(text){
   const element = document.getElementById("error-message");
   element.textContent = text;
@@ -327,7 +330,7 @@ function clearError() {
   element.textContent = "";
 }
 
-//Messages
+/* MESSAGES */
 function showMessage(text){
   const element = document.getElementById("nocontent-message");
   element.textContent = text;
@@ -342,7 +345,6 @@ function centerMap(){
   const center = [21.330 , 77.959];
   const zoom = 5;
   map.setView(center, zoom);
-  console.log("ciao")
 }
 
 

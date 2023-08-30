@@ -23,6 +23,7 @@ public class HomeController {
     FiltersService filtersService;
 
 
+    //get all artisans with relative information and items list
     @GetMapping("/getAllPoints")
     public ResponseEntity<HashMap<String, List<MapPoint>>> getAllPoints(){
 
@@ -30,12 +31,14 @@ public class HomeController {
 
     }
 
+    //get all artisans with relative information and items list filtered
     @PostMapping(path = "/getFilteredPoints", consumes = "application/json")
     public ResponseEntity<HashMap<String, List<MapPoint>>> getPoints(@RequestBody FilterParams filterParams){
 
             return mapService.getFilteredPoints(filterParams);
     }
 
+    //provides filter entries to the UI
     @GetMapping("/getFilters")
     public ResponseEntity<HashMap<String, ClientFilters>> getFilters(){
 
